@@ -8,41 +8,49 @@ public class DevinBrain implements Brain {
 		int bestY = 0;
 		Piece bestPiece = null;
 		Piece current = piece;
-		while (true) {
-			final int yBound = limitHeight - current.getHeight()+1;
-			final int xBound = board.getWidth() - current.getWidth()+1;
-		
-		for(int i = 0; i < 10; i++) {
-			int y = board.dropHeight(current, i);	// piece does not stick up too far
-				int result = board.place(current, i, y);
-				if (result <= Board.PLACE_ROW_FILLED) {
-					if (result == Board.PLACE_ROW_FILLED) board.clearRows();
-					double score = rateBoard(board);
-					
-					if (score<bestScore) {
-						bestScore = score;
-						bestX = i;
-						bestY = y;
-						bestPiece = current;
-					}
-				}
-				
-				board.undo();	// back out that play, loop around for the next
-			
-		}
-		
-		if (bestPiece == null) return(JTetris.DOWN);	// could not find a play at all!
-		
-		if(!piece.equals(bestPiece))
-			return JTetris.ROTATE;
-		if(bestX == pieceX)
-			return JTetris.DROP;
-		if(bestX < pieceX)
-			return JTetris.LEFT;
-		else
+		final int yBound = limitHeight - current.getHeight()+1;
+		final int xBound = board.getWidth() - current.getWidth()+1;
+		for(int i = 0; i < xBound; i++) {
+			int y = board.dropHeight(current, i);
 			return JTetris.RIGHT;
 		}
-	}
+		return JTetris.DROP;
+//		while (true) {
+//			final int yBound = limitHeight - current.getHeight()+1;
+//			final int xBound = board.getWidth() - current.getWidth()+1;
+//		
+//			for(int i = 0; i < 10; i++) {
+//				int y = board.dropHeight(current, i);	// piece does not stick up too far
+//				int result = board.place(current, i, y);
+//				if (result <= Board.PLACE_ROW_FILLED) {
+//					if (result == Board.PLACE_ROW_FILLED) 
+//						board.clearRows();
+//					double score = rateBoard(board);
+//					
+//					if (score<bestScore) {
+//						bestScore = score;
+//						bestX = i;
+//						bestY = y;
+//						bestPiece = current;
+//					}
+//				}
+//				
+//				board.undo();	// back out that play, loop around for the next
+//			}
+//		
+//			if (bestPiece == null) return(JTetris.DOWN);	// could not find a play at all!
+//		
+//			if(!piece.equals(bestPiece))
+//				return JTetris.ROTATE;
+//			if(bestX == pieceX)
+//				return JTetris.DROP;
+//			if(bestX < pieceX)
+//				return JTetris.LEFT;
+//			else
+//				return JTetris.RIGHT;
+//			}
+		}
+	
 	public double rateBoard(Board board) {
 		final int width = board.getWidth();
 		final int maxHeight = board.getMaxHeight();
