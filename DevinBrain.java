@@ -4,23 +4,26 @@ public class DevinBrain implements Brain {
 	@Override
 	public int bestMove(Board board, Piece piece, int pieceX, int pieceY, int limitHeight) {
 		double bestScore = 1e20;
-		int bestX = 0;
-		int bestY = 0;
 		Piece bestPiece = null;
 		Piece current = piece;
 		final int yBound = limitHeight - current.getHeight()+1;
 		final int xBound = board.getWidth() - current.getWidth()+1;
-		for(int i = 0; i < xBound; i++) {
+		for(int i = 0; i < 10;) {
 			int y = board.dropHeight(current, i);
-			return JTetris.RIGHT;
+			if(y== board.dropHeight(current, i+1) && y == board.dropHeight(current, i)) {
+				return JTetris.DROP;
+			}else if(y > board.dropHeight(current, i+1)) {
+				return JTetris.RIGHT;
+			}else if(y > board.dropHeight(current, i-1)) {
+				return JTetris.LEFT;
+			}
 		}
 		return JTetris.DROP;
 //		while (true) {
 //			final int yBound = limitHeight - current.getHeight()+1;
 //			final int xBound = board.getWidth() - current.getWidth()+1;
 //		
-//			for(int i = 0; i < 10; i++) {
-//				int y = board.dropHeight(current, i);	// piece does not stick up too far
+//			for(int i = 0; i < xBound; i++) {
 //				int result = board.place(current, i, y);
 //				if (result <= Board.PLACE_ROW_FILLED) {
 //					if (result == Board.PLACE_ROW_FILLED) 
