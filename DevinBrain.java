@@ -8,15 +8,49 @@ public class DevinBrain implements Brain {
 		Piece current = piece;
 		final int yBound = limitHeight - current.getHeight()+1;
 		final int xBound = board.getWidth() - current.getWidth()+1;
-		for(int i = 0; i < 10;) {
-			int y = board.dropHeight(current, i);
-			if(y== board.dropHeight(current, i+1) && y == board.dropHeight(current, i)) {
-				return JTetris.DROP;
-			}else if(y > board.dropHeight(current, i+1)) {
-				return JTetris.RIGHT;
-			}else if(y > board.dropHeight(current, i-1)) {
-				return JTetris.LEFT;
+		//test rotations
+//		int tempWidth; 
+//		for(int m = 0; m < 2; m++) {
+//			
+//		}
+		
+		//attempt to find width and make decision to place in lowest column based on that
+		for(int i = 1; i < 10; i ++) {
+			System.out.println("1");
+			if(current.getWidth() > 2) {
+				for(int l = 1; l < 5; l++) {
+					System.out.println("4");
+					int y = board.dropHeight(current, l) + 2;
+					if(l >= 3) {
+						if(y > board.dropHeight(current, l-3)) 
+							return JTetris.LEFT;
+					}else if(y > board.dropHeight(current, l+3)) {
+						return JTetris.RIGHT;
+					}
+				}
 			}
+			if(current.getWidth() > 1) {
+				for(int j = 1; j < 5; j++) {
+					System.out.println("3");
+					int y = board.dropHeight(current, j) + 1;
+					if(j >= 2) {
+						if(y > board.dropHeight(current, j-2)) 
+							return JTetris.LEFT;
+					}else if(y > board.dropHeight(current, j+2)) {
+						return JTetris.RIGHT;
+					}
+				}
+			}
+			for(int k = 1; k < 5; k++) {
+				System.out.println("2");
+				int y = board.dropHeight(current, k);
+				if(y > board.dropHeight(current, k-1)) {
+					return JTetris.LEFT;
+				}else if(y > board.dropHeight(current, k+1)) {
+					return JTetris.RIGHT;
+				}
+			}
+			
 		}
 		return JTetris.DROP;
 //		while (true) {
